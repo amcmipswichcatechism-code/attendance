@@ -15,9 +15,9 @@
 <body>
     <div class="container">
         <h1>Scan to Sign In / Out</h1>
-        <p>Code refreshes every 20 seconds for security</p>
+        <p>Code refreshes every 30 seconds for security</p>
         <div id="qrcode"></div>
-        <div id="timer">Refreshing in: <span id="count">20</span>s</div>
+        <div id="timer">Refreshing in: <span id="count">30</span>s</div>
         <div id="status">● System Active</div>
     </div>
 
@@ -44,11 +44,11 @@
             resetTimer();
         }
 
-        let timeLeft = 20;
+        let timeLeft = 30;
         let timerInterval;
 
         function resetTimer() {
-            timeLeft = 20;
+            timeLeft = 30;
             document.getElementById("count").innerText = timeLeft;
         }
 
