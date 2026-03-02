@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Front Desk Sign-In Station</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; background-color: #f8f9fa; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: #1a73e8; margin-bottom: 10px; }
+        #qrcode { margin: 25px 0; padding: 10px; background: white; border: 1px solid #eee; }
+        #timer { font-size: 1.1rem; color: #5f6368; font-weight: bold; }
+        #status { margin-top: 15px; font-size: 0.9rem; color: #188038; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan to Sign In / Out</h1>
+        <p>Code refreshes every 20 seconds for security</p>
+        <div id="qrcode"></div>
+        <div id="timer">Refreshing in: <span id="count">20</span>s</div>
+        <div id="status">● System Active</div>
+    </div>
+
+    <script>
+        // REPLACE THIS with your GitHub Gate URL from Step 2
+        const GATEWAY_URL = "https://x123x.github.io/attendance/gate.html"; 
+
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 300,
+            height: 300,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        function updateQR() {
+            const now = Math.floor(Date.now() / 1000);
+            const freshLink = `${GATEWAY_URL}?t=${now}`;
+            
+            qrcode.clear();
+            qrcode.makeCode(freshLink);
+            
+            console.log("Generated Link: " + freshLink);
+            resetTimer();
+        }
+
+        let timeLeft = 20;
+        let timerInterval;
+
+        function resetTimer() {
+            timeLeft = 20;
+            document.getElementById("count").innerText = timeLeft;
+        }
+
+        // Countdown logic
+        setInterval(() => {
+            timeLeft--;
+            if (timeLeft < 0) {
+                updateQR();
+            } else {
+                document.getElementById("count").innerText = timeLeft;
+            }
+        }, 1000);
+
+        // Run immediately on load
+        updateQR();
+    </script>
+</body>
+</html>
