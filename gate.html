@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-In Gate</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #f0f2f5; }
+        .box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div id="msg">Verifying your location...</div>
+    </div>
+ 
+    <script>
+        const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe-opzeLH3bfOFPhQ4vuMwzFAghc9p_vUq9hfJLmdSr0EY8FQ/viewform?usp=header"; // Replace this
+        const ENTRY_ID = "entry.1235612336"; // Replace this with your ID from Step 1
+        
+        const params = new URLSearchParams(window.location.search);
+        const linkTime = parseInt(params.get('t'));
+        const now = Math.floor(Date.now() / 1000);
+ 
+        // Check if link is within 30 seconds
+        if (linkTime && Math.abs(now - linkTime) < 30) {
+            window.location.replace(`${FORM_URL}?${ENTRY_ID}=Verified_${linkTime}`);
+        } else {
+            document.getElementById('msg').innerHTML = "<div class='error'>Link Expired.<br>Please scan the live QR code on the desk.</div>";
+        }
+    </script>
+</body>
+</html>
