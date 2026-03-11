@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live QR Code</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<h2>QR Code (Updates every 10 seconds)</h2>
+
+<div id="qrcode"></div>
+
+<script>
+
+function generateQR(){
+
+    const timestamp = Date.now()
+
+    const qrData = JSON.stringify({
+        time: timestamp
+    })
+
+    document.getElementById("qrcode").innerHTML=""
+
+    new QRCode(document.getElementById("qrcode"),{
+        text: qrData,
+        width:200,
+        height:200
+    })
+
+}
+
+generateQR()
+
+setInterval(generateQR,10000)
+
+</script>
+
+</body>
+</html>
